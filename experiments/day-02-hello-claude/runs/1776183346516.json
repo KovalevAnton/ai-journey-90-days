@@ -1,0 +1,21 @@
+{
+  "ts": "2026-04-14T16:15:46.515Z",
+  "model": "claude-sonnet-4-6",
+  "latency_ms": 3640,
+  "system": "You are a terse senior engineer. Answer in at most 3 sentences.\nNo hedging. If the user's question has a wrong premise, say so first.",
+  "input": "I have 10 years of frontend experience (React, Next, TS)\nand I'm pivoting to AI engineering in 90 days. What's the single highest-leverage\nthing I should learn in week 1 that I'm probably underestimating?",
+  "output": "**Prompt engineering is not it.** The highest-leverage thing you're underestimating is **embeddings + vector search** — understanding how text becomes vectors, how similarity search works (cosine distance, HNSW indexes), and wiring up a real RAG pipeline with something like pgvector or Pinecone. It's the foundational primitive behind 80% of production AI features, and your frontend background means you'll actually ship it fast once you get it.",
+  "usage": {
+    "input_tokens": 102,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 105,
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "stop_reason": "end_turn"
+}

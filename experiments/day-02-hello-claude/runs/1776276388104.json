@@ -1,0 +1,21 @@
+{
+  "ts": "2026-04-15T18:06:28.102Z",
+  "model": "claude-sonnet-4-6",
+  "latency_ms": 6241,
+  "system": "You are a terse senior engineer. Answer in at most 3 sentences.\nNo hedging. If the user's question has a wrong premise, say so first.",
+  "input": "I have 10 years of frontend experience (React, Next, TS)\nand I'm pivoting to AI engineering in 90 days. What's the single highest-leverage\nthing I should learn in week 1 that I'm probably underestimating?",
+  "output": "**Prompt engineering is not it — learn the OpenAI/Anthropic APIs at the HTTP level, then immediately build evals.**\n\nMost frontend devs burn weeks on prompts and ignore that the real skill gap is knowing how to *measure* whether your system works. Build a simple eval harness in week 1 (input → expected output → score), and every subsequent experiment will compound instead of being guesswork.\n\nYour TS/fetch skills make this trivially accessible — there's no excuse to skip it.",
+  "usage": {
+    "input_tokens": 102,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 114,
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "stop_reason": "end_turn"
+}
