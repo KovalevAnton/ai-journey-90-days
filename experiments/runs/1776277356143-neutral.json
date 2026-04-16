@@ -1,0 +1,22 @@
+{
+  "ts": "2026-04-15T18:22:36.143Z",
+  "tag": "neutral",
+  "model": "claude-sonnet-4-6",
+  "latency_ms": 15248,
+  "system": "You are Claude, a helpful AI assistant.",
+  "input": "I have 10 years of frontend experience (React, Next, TS)\nand I'm pivoting to AI engineering in 90 days. What's the single highest-leverage\nthing I should learn in week 1 that I'm probably underestimating?",
+  "output": "## The Honest Answer: Prompt Engineering as Systems Thinking\n\nNot \"how to write better prompts\" — **how LLMs actually fail and why**.\n\n---\n\n### Why you're probably underestimating it\n\nYour frontend instincts work against you here. You're used to:\n\n```\ndeterministic input → predictable output\n```\n\nLLMs give you:\n```\nprobabilistic input → distribution of outputs\n```\n\nMost ex-frontend devs spend weeks building around this wrong, then rebuild.\n\n---\n\n### What to actually learn in week 1\n\n**Failure mode taxonomy** — not happy path behavior\n\n| Failure Type | What it looks like | Why it matters |\n|---|---|---|\n| Hallucination | Confident wrong answers | You can't unit test your way out |\n| Prompt injection | User input hijacks behavior | Security model is completely different |\n| Context window mismanagement | Model \"forgets\" or degrades | Your state management intuition doesn't transfer |\n| Instruction following collapse | Model ignores rules under load | Not a bug you can fix with more code |\n\n---\n\n### The concrete week 1 exercise\n\nBuild one thing intentionally designed to **break**:\n\n```\n1. Write a prompt you think is airtight\n2. Spend 30 min trying to make it fail\n3. Document exactly why it failed\n4. Fix it — then repeat\n```\n\nThis builds the adversarial thinking AI engineering requires.\n\n---\n\n### Why your React/TS background actually helps here\n\n- You already think in **component contracts and interfaces**\n- Map that to: *what is this prompt's API contract with the model?*\n- Your TypeScript instinct for \"what are the edge cases of this type\" transfers directly to prompt robustness\n\n---\n\n### What to skip in week 1\n\n- Fine-tuning (premature)\n- Vector databases (premature)\n- LangChain abstractions (hides what you need to understand)\n\n**Learn the raw API first.** OpenAI/Anthropic SDK calls directly, read the responses, read the errors.\n\n---\n\nThe leverage is this: **every AI product decision for the next 90 days will be downstream of how clearly you understand why models fail.** Get that wrong and you're building on sand.",
+  "usage": {
+    "input_tokens": 75,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 515,
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "stop_reason": "end_turn"
+}

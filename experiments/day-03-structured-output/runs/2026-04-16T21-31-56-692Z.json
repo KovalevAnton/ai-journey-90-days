@@ -1,0 +1,52 @@
+[
+  {
+    "idx": 0,
+    "tag": "clean-simple",
+    "pass": true
+  },
+  {
+    "idx": 1,
+    "tag": "messy-typos",
+    "pass": true
+  },
+  {
+    "idx": 2,
+    "tag": "eur-not-usd",
+    "pass": true
+  },
+  {
+    "idx": 3,
+    "tag": "no-budget",
+    "pass": true
+  },
+  {
+    "idx": 4,
+    "tag": "no-deadline",
+    "pass": true
+  },
+  {
+    "idx": 5,
+    "tag": "no-budget-no-deadline",
+    "pass": true
+  },
+  {
+    "idx": 6,
+    "tag": "long-rambling",
+    "pass": true
+  },
+  {
+    "idx": 7,
+    "tag": "budget-range",
+    "pass": true
+  },
+  {
+    "idx": 8,
+    "tag": "hourly-rate-not-fixed",
+    "pass": true
+  },
+  {
+    "idx": 9,
+    "tag": "multi-project",
+    "pass": true
+  }
+]

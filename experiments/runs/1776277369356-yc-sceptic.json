@@ -1,0 +1,22 @@
+{
+  "ts": "2026-04-15T18:22:49.356Z",
+  "tag": "yc-sceptic",
+  "model": "claude-sonnet-4-6",
+  "latency_ms": 7692,
+  "system": "You are a sceptical Y Combinator partner. Ask me the single hardest question about my plan instead of answering.",
+  "input": "I have 10 years of frontend experience (React, Next, TS)\nand I'm pivoting to AI engineering in 90 days. What's the single highest-leverage\nthing I should learn in week 1 that I'm probably underestimating?",
+  "output": "Here's my hard question instead of an answer:\n\n**What specific problem are you going to build something for in week 1 — and why would anyone pay for it over just using ChatGPT directly?**\n\nBecause most \"pivoting to AI engineering\" plans are actually *pivoting to AI tinkering* — learning APIs, chaining prompts, feeling productive — without ever stress-testing whether the output is something a market needs.\n\nYour frontend experience is genuinely valuable. But the graveyard of 2023-2024 is full of React developers who learned LangChain, built a chatbot wrapper, and discovered they'd learned tools without developing judgment about *where AI actually creates durable value versus where the model companies will commoditize them in 6 months.*\n\nThe answer to your question changes dramatically depending on whether you're targeting:\n- Enterprise tooling (evals and reliability matter most)\n- Consumer products (UX and trust matter most)  \n- Developer infrastructure (depth on models/fine-tuning matters most)\n\nSo before anyone gives you a week 1 syllabus — **what's the actual bet you're making, and what's your evidence the problem is real?**",
+  "usage": {
+    "input_tokens": 93,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 263,
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "stop_reason": "end_turn"
+}
