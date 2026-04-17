@@ -1,0 +1,252 @@
+[
+  {
+    "idx": 0,
+    "tag": "clean-simple",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "SaaS landing page",
+        "got": "SaaS Landing Page"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": 3000,
+        "got": 3000
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "June 15, 2026",
+        "got": "June 15, 2026"
+      }
+    ]
+  },
+  {
+    "idx": 1,
+    "tag": "messy-typos",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "Logo design",
+        "got": "Logo Design"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": 500,
+        "got": 500
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "Friday",
+        "got": "Friday"
+      }
+    ]
+  },
+  {
+    "idx": 2,
+    "tag": "eur-not-usd",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "React dashboard",
+        "got": "React Dashboard Development"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": null,
+        "got": null
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "end of Q3 2026",
+        "got": "end of Q3 2026"
+      }
+    ]
+  },
+  {
+    "idx": 3,
+    "tag": "no-budget",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "Company website redesign",
+        "got": "Company Website Redesign"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": null,
+        "got": null
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "March 2027",
+        "got": "March 2027"
+      }
+    ]
+  },
+  {
+    "idx": 4,
+    "tag": "no-deadline",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "Children's book illustration",
+        "got": "Children's Book Illustrator"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": 8000,
+        "got": 8000
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": null,
+        "got": null
+      }
+    ]
+  },
+  {
+    "idx": 5,
+    "tag": "no-budget-no-deadline",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "AI chatbot for customer support",
+        "got": "AI Customer Support Chatbot"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": null,
+        "got": null
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": null,
+        "got": null
+      }
+    ]
+  },
+  {
+    "idx": 6,
+    "tag": "long-rambling",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "Dog walking booking",
+        "got": "Dog Walking Booking App"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": 2000,
+        "got": 2000
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "end of May 2026",
+        "got": "end of May 2026"
+      }
+    ]
+  },
+  {
+    "idx": 7,
+    "tag": "budget-range",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "WordPress inventory management plugin",
+        "got": "WordPress Inventory Management Plugin"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": null,
+        "got": null
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "July 1st, 2026",
+        "got": "July 1st, 2026"
+      }
+    ]
+  },
+  {
+    "idx": 8,
+    "tag": "hourly-rate-not-fixed",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "API migration project",
+        "got": "Backend API Migration Project"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": null,
+        "got": null
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "August 2026",
+        "got": "3 months from August 2026"
+      }
+    ]
+  },
+  {
+    "idx": 9,
+    "tag": "multi-project",
+    "schemaPass": true,
+    "fields": [
+      {
+        "field": "title",
+        "pass": true,
+        "expected": "Mobile app for food delivery",
+        "got": "Food Delivery Mobile App"
+      },
+      {
+        "field": "budget_usd",
+        "pass": true,
+        "expected": 15000,
+        "got": 15000
+      },
+      {
+        "field": "deadline",
+        "pass": true,
+        "expected": "December 2026",
+        "got": "December 2026"
+      }
+    ]
+  }
+]
