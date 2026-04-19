@@ -1,0 +1,16 @@
+{
+  "name": "day-05-structured-compare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "eval": "npx tsx --env-file=.env.local eval.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^6.0.2"
+  }
+}
