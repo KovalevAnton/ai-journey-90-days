@@ -1,0 +1,16 @@
+{
+  "name": "day-06-embeddings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "embed": "npx tsx --env-file=.env.local embed.ts",
+    "search": "npx tsx --env-file=.env.local search.ts"
+  },
+  "dependencies": {
+    "openai": "^4.80.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^6.0.2"
+  }
+}
