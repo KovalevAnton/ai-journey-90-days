@@ -1,0 +1,17 @@
+{
+  "name": "day-07-rag",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "rag": "npx tsx --env-file=.env.local rag.ts",
+    "eval": "npx tsx --env-file=.env.local eval.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.80.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^6.0.2"
+  }
+}
