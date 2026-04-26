@@ -6,13 +6,33 @@ engineering. One project a month, one commit a day. No curation, no drafts.
 Site: [kovalevanton.xyz](https://kovalevanton.xyz)
 Twitter: [@kovalevantondev](https://twitter.com/kovalevantondev)
 
+## Setup
+
+```bash
+cp .env.example .env.local   # fill in your API keys
+npm install                   # one install, all experiments
+```
+
+## Running experiments
+
+Every experiment is a self-contained folder under `experiments/`. Run any
+file from the repo root:
+
+```bash
+npm run x -- experiments/day-09-chunking/chunk.ts
+npm run x -- experiments/day-07-rag/rag.ts "how do I get a refund?"
+npm run x -- experiments/day-06-embeddings/search.ts "two-factor auth"
+```
+
+`npm run x` is a shortcut for `tsx --env-file=.env.local`.
+
 ## The run
 
-| #     | Project             | Focus                                   | Target day |
-| ----- | ------------------- | --------------------------------------- | ---------- |
-| 01    | chat-with-docs      | Claude API, prompts, RAG, pgvector      | day 30     |
-| 02    | research-agent      | LangGraph, tool use, evals, Langfuse    | day 60     |
-| 03    | ai-code-review      | Agent on PRs, evals, GitHub Actions     | day 90     |
+| #  | Project        | Focus                                | Target day |
+|----|----------------|--------------------------------------|------------|
+| 01 | chat-with-docs | Claude API, prompts, RAG, pgvector   | day 30     |
+| 02 | research-agent | LangGraph, tool use, evals, Langfuse | day 60     |
+| 03 | ai-code-review | Agent on PRs, evals, GitHub Actions  | day 90     |
 
 ## Log
 

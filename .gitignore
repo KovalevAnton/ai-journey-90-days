@@ -12,6 +12,13 @@ build/
 .cache/
 *.tsbuildinfo
 
+# generated data (vectors, chunks)
+experiments/**/vectors*.json
+experiments/**/chunks-*.json
+
+# lock file (not needed for experiments repo)
+package-lock.json
+
 # logs
 *.log
 npm-debug.log*

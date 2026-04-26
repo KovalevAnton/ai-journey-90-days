@@ -1,7 +1,10 @@
 // hello.ts
 import Anthropic from "@anthropic-ai/sdk";
 import { writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Anthropic(); // читает ANTHROPIC_API_KEY из env
 
@@ -38,9 +41,10 @@ for (const s of systems) {
   console.log(`\n=== ${s.tag} (${ms}ms) ===`);
   console.log(text);
 
-  mkdirSync("runs", { recursive: true });
+  const runsDir = join(__dirname, "..", "runs");
+  mkdirSync(runsDir, { recursive: true });
   writeFileSync(
-    join("runs", `${Date.now()}-${s.tag}.json`),
+    join(runsDir, `${Date.now()}-${s.tag}.json`),
     JSON.stringify(
       {
         ts: new Date().toISOString(),

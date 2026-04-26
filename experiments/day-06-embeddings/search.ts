@@ -8,8 +8,11 @@
 import OpenAI from "openai";
 import { chunks } from "./docs.js";
 import { readFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const openai = new OpenAI();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ── Cosine similarity (from day-03 review, written by hand) ──
 
@@ -36,7 +39,7 @@ interface IndexEntry {
 }
 
 function loadIndex(): IndexEntry[] {
-  const raw = readFileSync("vectors.json", "utf-8");
+  const raw = readFileSync(resolve(__dirname, "vectors.json"), "utf-8");
   return JSON.parse(raw);
 }
 

@@ -1,0 +1,17 @@
+{
+  "name": "ai-journey-90-days",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "x": "npx tsx --env-file=.env.local"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.88.0",
+    "openai": "^4.86.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  }
+}

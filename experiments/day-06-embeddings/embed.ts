@@ -9,8 +9,11 @@
 import OpenAI from "openai";
 import { chunks } from "./docs.js";
 import { writeFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const openai = new OpenAI(); // reads OPENAI_API_KEY from env
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ── Embed one or more texts in a single API call ──
 
@@ -44,7 +47,7 @@ async function main() {
   }));
 
   // Save to disk
-  writeFileSync("vectors.json", JSON.stringify(index));
+  writeFileSync(resolve(__dirname, "vectors.json"), JSON.stringify(index));
 
   console.log(`Saved ${index.length} vectors to vectors.json`);
   console.log(`Dimensions per vector: ${vectors[0].length}`);
