@@ -9,7 +9,6 @@ interface Message {
 }
 
 interface Meta {
-  expanded: string;
   sources: string[];
   remaining: number;
 }

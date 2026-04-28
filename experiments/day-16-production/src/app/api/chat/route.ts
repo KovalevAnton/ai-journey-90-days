@@ -42,12 +42,17 @@ function sanitizeHistory(raw: unknown): Message[] {
     valid.push({ role: entry.role, content });
   }
 
-  // Enforce alternating turns (user, assistant, user, ...)
+  // Enforce alternating turns starting with "user"
   const cleaned: Message[] = [];
   for (const msg of valid) {
     const last = cleaned[cleaned.length - 1];
     if (last && last.role === msg.role) continue; // skip consecutive same-role
     cleaned.push(msg);
+  }
+
+  // Must start with "user" — drop leading assistant messages
+  while (cleaned.length > 0 && cleaned[0].role !== "user") {
+    cleaned.shift();
   }
 
   return cleaned;
@@ -67,23 +72,38 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Payload size check ──
-    const contentLength = parseInt(headersList.get("content-length") || "0");
-    if (contentLength > 50_000) {
+    // ── Parse request ──
+    const bodyText = await req.text();
+    if (bodyText.length > 50_000) {
       return new Response(
         JSON.stringify({ error: "Payload too large" }),
         { status: 413, headers: { "Content-Type": "application/json" } }
       );
     }
-
-    // ── Parse request ──
-    const body = await req.json();
+    const body = JSON.parse(bodyText);
 
     // Honeypot: if this hidden field is filled, it's a bot
     if (body.website) {
       return new Response(
         JSON.stringify({ error: "Something went wrong" }),
         { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // ── Validate input (before rate limit — don't waste tokens on bad requests) ──
+    const question: string = body.question?.trim();
+
+    if (!question) {
+      return new Response(
+        JSON.stringify({ error: "No question provided" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    if (question.length > 500) {
+      return new Response(
+        JSON.stringify({ error: "Question too long (max 500 chars)" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -110,23 +130,6 @@ export async function POST(req: NextRequest) {
           limit: rateLimit.limit,
         }),
         { status: 429, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    // ── Validate input ──
-    const question: string = body.question?.trim();
-
-    if (!question) {
-      return new Response(
-        JSON.stringify({ error: "No question provided" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    if (question.length > 500) {
-      return new Response(
-        JSON.stringify({ error: "Question too long (max 500 chars)" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
