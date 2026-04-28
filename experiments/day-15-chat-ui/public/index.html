@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with Docs</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header .status {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .header .status.loaded {
+      color: #22c55e;
+    }
+
+    /* Upload area */
+    .upload-area {
+      padding: 24px;
+      border-bottom: 1px solid #222;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .upload-area.hidden { display: none; }
+
+    .upload-btn {
+      background: #1a1a2e;
+      border: 2px dashed #333;
+      border-radius: 12px;
+      padding: 32px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .upload-btn:hover { border-color: #555; }
+
+    .upload-btn p { color: #888; font-size: 14px; margin-top: 8px; }
+    .upload-btn .icon { font-size: 32px; }
+
+    .upload-btn input { display: none; }
+
+    .upload-progress {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    /* Messages */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .message.user {
+      background: #1a1a2e;
+      padding: 12px 16px;
+      border-radius: 12px;
+      align-self: flex-end;
+    }
+
+    .message.assistant {
+      padding: 4px 0;
+    }
+
+    .message.status {
+      font-size: 13px;
+      color: #666;
+      font-style: italic;
+    }
+
+    .message .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .usage {
+      font-size: 12px;
+      color: #444;
+      margin-top: 8px;
+    }
+
+    /* Input */
+    .input-area {
+      padding: 16px 24px;
+      border-top: 1px solid #222;
+      flex-shrink: 0;
+    }
+
+    .input-row {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-row input {
+      flex: 1;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #e5e5e5;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .input-row input:focus { border-color: #555; }
+    .input-row input:disabled { opacity: 0.5; }
+
+    .input-row button {
+      background: #e5e5e5;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .input-row button:hover { background: #fff; }
+    .input-row button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* Empty state */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Chat with Docs</h1>
+    <span class="status" id="docStatus">No document loaded</span>
+  </div>
+
+  <div class="upload-area" id="uploadArea">
+    <label class="upload-btn" id="uploadBtn">
+      <div class="icon">📄</div>
+      <div>Drop a text file or click to upload</div>
+      <p>.txt or .md files</p>
+      <input type="file" id="fileInput" accept=".txt,.md,.text">
+    </label>
+    <div class="upload-progress" id="uploadProgress"></div>
+  </div>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="input-area">
+    <div class="input-row">
+      <input
+        type="text"
+        id="questionInput"
+        placeholder="Ask a question about your document..."
+        disabled
+      >
+      <button id="sendBtn" disabled>Send</button>
+    </div>
+  </div>
+
+  <script>
+    const messagesEl = document.getElementById('messages');
+    const questionInput = document.getElementById('questionInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const docStatus = document.getElementById('docStatus');
+
+    let history = [];
+    let isStreaming = false;
+
+    // Check if document already loaded
+    fetch('/api/status')
+      .then(r => r.json())
+      .then(data => {
+        if (data.chunks > 0) {
+          docStatus.textContent = `${data.document} (${data.chunks} chunks)`;
+          docStatus.classList.add('loaded');
+          uploadArea.classList.add('hidden');
+          questionInput.disabled = false;
+          sendBtn.disabled = false;
+          questionInput.focus();
+        }
+      });
+
+    // File upload
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      uploadProgress.textContent = 'Uploading and processing...';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const resp = await fetch('/api/ingest', { method: 'POST', body: formData });
+        const data = await resp.json();
+
+        if (resp.ok) {
+          docStatus.textContent = `${data.document} (${data.chunks} chunks)`;
+          docStatus.classList.add('loaded');
+          uploadArea.classList.add('hidden');
+          uploadProgress.textContent = '';
+          questionInput.disabled = false;
+          sendBtn.disabled = false;
+          questionInput.focus();
+        } else {
+          uploadProgress.textContent = `Error: ${data.error}`;
+        }
+      } catch (err) {
+        uploadProgress.textContent = `Error: ${err.message}`;
+      }
+    });
+
+    // Send message
+    async function sendMessage() {
+      const question = questionInput.value.trim();
+      if (!question || isStreaming) return;
+
+      isStreaming = true;
+      questionInput.value = '';
+      questionInput.disabled = true;
+      sendBtn.disabled = true;
+
+      // Add user message
+      addMessage('user', question);
+
+      // Create assistant message (will be streamed into)
+      const assistantEl = addMessage('assistant', '');
+      const contentEl = assistantEl.querySelector('.content');
+
+      try {
+        const resp = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question, history }),
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let fullText = '';
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const data = JSON.parse(line.slice(6));
+
+            if (data.type === 'status') {
+              const statusEl = addMessage('status', data.text);
+            } else if (data.type === 'token') {
+              fullText += data.text;
+              contentEl.textContent = fullText;
+              messagesEl.scrollTop = messagesEl.scrollHeight;
+            } else if (data.type === 'done') {
+              const usageEl = document.createElement('div');
+              usageEl.className = 'usage';
+              usageEl.textContent = `${data.usage.input} in / ${data.usage.output} out tokens`;
+              assistantEl.appendChild(usageEl);
+            } else if (data.type === 'error') {
+              contentEl.textContent = `Error: ${data.text}`;
+            }
+          }
+        }
+
+        // Update history
+        history.push({ role: 'user', content: question });
+        history.push({ role: 'assistant', content: fullText });
+
+      } catch (err) {
+        contentEl.textContent = `Error: ${err.message}`;
+      }
+
+      isStreaming = false;
+      questionInput.disabled = false;
+      sendBtn.disabled = false;
+      questionInput.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function addMessage(role, text) {
+      const el = document.createElement('div');
+      el.className = `message ${role}`;
+
+      if (role === 'status') {
+        el.textContent = text;
+      } else {
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = role === 'user' ? 'You' : 'Assistant';
+
+        const content = document.createElement('div');
+        content.className = 'content';
+        content.textContent = text;
+
+        el.appendChild(label);
+        el.appendChild(content);
+      }
+
+      messagesEl.appendChild(el);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return el;
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    questionInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
